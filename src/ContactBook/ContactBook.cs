@@ -82,12 +82,63 @@ public class ContactBook
 		Console.WriteLine("Welcome to Jeremy's Contact Book!");
 		PressEnterContinue();
 	}
-
-	private void ShowContacts()
+    	private void ShowContacts()
 	{
-
+		Console.Clear();
+		ShowContacts(filteredContacts, page, size);
 	}
 
+	private void ShowContacts(List<Contact> contacts, int page, int size)
+	{
+		if(contacts.Count <= 0)
+		{
+			Console.WriteLine("No contacts found.");
+		}
+		else
+		{
+			int indexCol = Math.Max("#".Length, contacts.Count.ToString().Length);
+			int fnameCol = Math.Max("First Name".Length, contacts.Max(c => c.GetFName()?.Length ?? 0));
+			int lnameCol = Math.Max("Last Name".Length, contacts.Max(c => c.GetLName()?.Length ?? 0));
+			int phoneCol = Math.Max("Phone".Length, contacts.Max(c => c.GetPhone()?.Length ?? 0));
+			int emailCol = Math.Max("Email".Length, contacts.Max(c => c.GetEmail()?.Length ?? 0));
+
+			Console.WriteLine(""
+			+ "{0, " + -indexCol + "}  "
+			+ "{1, " + -fnameCol + "}  "
+			+ "{2, " + -lnameCol + "}  "
+			+ "{3, " + -phoneCol + "}  "
+			+ "{4, " + -emailCol + "}  ",
+			"#", "First Name", "Last Name", "Phone", "Email");
+
+			Console.WriteLine(new string('─', (indexCol + 2 + fnameCol + 2 + lnameCol + 2 + phoneCol + 2 + emailCol)));
+
+			int n = contacts.Count;
+			int pageCount = PageCount(contacts, size);
+			int s = Math.Clamp((page - 1) * size, 0, n);
+			int e = Math.Clamp(s + size, 0, n);
+
+			for(int i = s; i < e; i++)
+			{
+				Contact c = contacts[i];
+
+				Console.WriteLine(""
+				+ "{0, " + -indexCol + "}  "
+				+ "{1, " + -fnameCol + "}  "
+				+ "{2, " + -lnameCol + "}  "
+				+ "{3, " + -phoneCol + "}  "
+				+ "{4, " + -emailCol + "}  ",
+				(i + 1), c.GetFName(), c.GetLName(), c.GetPhone(), c.GetEmail());
+			}
+
+			for(int i = 0; i < size - e + s; i++)
+			{
+				Console.WriteLine();
+			}
+
+			Console.WriteLine();
+			Console.WriteLine($"Page {page} of {pageCount} ({s + 1}-{e} of {n})");
+		}
+	}
 
 
 	private void ShowInputOptions()
@@ -127,5 +178,10 @@ public class ContactBook
 	{
 		Console.Write("Press ENTER to continue.");
 		while(Console.ReadKey(true).Key != ConsoleKey.Enter);
+	}
+
+    	private static int PageCount(List<Contact> contacts, int size)
+	{
+		return (int) Math.Max(1, Math.Ceiling(contacts.Count / (double) size));
 	}
 }
