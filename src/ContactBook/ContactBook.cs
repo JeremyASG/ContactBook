@@ -256,7 +256,7 @@ public class ContactBook
 
     private bool ConfirmExit()
 	{
-		return true;
+		return Confirm("Do you want to exit?", NO);
 	}
 
 	private void ShowExitScreen()
@@ -268,6 +268,32 @@ public class ContactBook
 	{
 		Console.Write("Press ENTER to continue.");
 		while(Console.ReadKey(true).Key != ConsoleKey.Enter);
+	}
+
+    private string GetOption(string prompt, string[] validOptions, string defaultOption)
+	{
+		string options = string.Join('/', validOptions);
+
+		Console.Write(prompt + $" [{options}] ({defaultOption}) ");
+		string option = Console.ReadLine()!.ToUpper();
+
+		if(string.IsNullOrWhiteSpace(option)) {	option = defaultOption; }
+
+		while(!validOptions.Contains(option))
+		{
+			Console.WriteLine("ERROR: Invalid option. Please try again.");
+			Console.Write(prompt + $" [{options}] ({defaultOption}) ");
+			option = Console.ReadLine()!.ToUpper();
+
+			if(string.IsNullOrWhiteSpace(option)) {	option = defaultOption; }
+		}
+
+		return option;
+	}
+
+	private bool Confirm(string prompt, string defaultOption)
+	{
+		return GetOption(prompt, YES_NO, defaultOption) == YES;
 	}
 
     	private static int PageCount(List<Contact> contacts, int size)
