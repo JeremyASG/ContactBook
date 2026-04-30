@@ -273,10 +273,34 @@ public class ContactBook
 	}
 
     private void ReviewContact()
-    {
-        Console.WriteLine("Review Contact");
-    }
+	{
+		int index = GetInt("Enter index", 1, filteredContacts.Count) - 1;
 
+		Console.Clear();
+
+		Console.WriteLine(new string('#', 80));
+		Console.WriteLine("Review Contact");
+
+		Console.WriteLine(new string('#', 80));
+		Console.WriteLine();
+
+		ReviewContact(filteredContacts, index);
+
+		Console.WriteLine();
+		PressEnterContinue();
+	}
+
+	private void ReviewContact(List<Contact> contacts, int index)
+	{
+		Contact c = contacts[index];
+
+		Console.WriteLine($"First name: {c.GetFName()}");
+
+		Console.WriteLine($" Last name: {c.GetLName()}");
+
+		Console.WriteLine($" Phone: {c.GetPhone()}");
+		Console.WriteLine($"  Email: {c.GetEmail()}");
+	}
     private void UpdateContact()
     {
         Console.WriteLine("Update Contact");
