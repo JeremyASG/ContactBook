@@ -161,7 +161,16 @@ public class ContactBook
 
         private bool IsValidInput(string input)
     {
-        return true;
+       if(!COMMANDS.Contains(input))
+		{
+			Console.WriteLine("ERROR: Invalid input. Please try again.");
+			PressEnterContinue();
+			return false;
+		}
+		else
+		{
+			return true;
+		}
     }
 
 
