@@ -418,10 +418,28 @@ public class ContactBook
 		}
 	}
 
-    private void FindContacts()
-    {
-        Console.WriteLine("Find Contacts");
-    }
+   private void FindContacts()
+	{
+		Console.Write("Enter search term (Clear): ");
+		string searchTerm = Console.ReadLine()!.ToLower();
+
+		Console.WriteLine();
+		
+		if(Confirm("Do you want to search contacts?", YES))
+		{
+			filteredContacts = allContacts.FindAll(c =>
+				(c.GetFName()+c.GetLName()+c.GetPhone()+c.GetEmail()).ToLower().Contains(searchTerm));
+
+			page = 1;
+			Console.WriteLine("Operation successful: Contacts searched.");
+		}
+		else
+		{
+			Console.WriteLine("Operation cancelled: Contacts not searched.");
+		}
+
+		PressEnterContinue();
+	}
 
     private void OrderContacts()
     {
