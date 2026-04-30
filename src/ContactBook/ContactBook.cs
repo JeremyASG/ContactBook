@@ -194,15 +194,26 @@ public class ContactBook
 		}
 	}
 
-    private void NextPage()
-    {
-        Console.WriteLine("Next Page");
-    }
+   private void NextPage()
+	{
+		NextPage(filteredContacts, ref page, size);
+	}
 
-    private void PrevPage()
-    {
-        Console.WriteLine("Prev Page");
-    }
+	private void NextPage(List<Contact> contacts, ref int page, int size)
+	{
+		page = Math.Clamp(page + 1, 1, PageCount(contacts, size));
+	}
+
+	private void PrevPage()
+	{
+		PrevPage(filteredContacts, ref page, size);
+	}
+
+	private void PrevPage(List<Contact> contacts, ref int page, int size)
+	{
+		page = Math.Clamp(page - 1, 1, PageCount(contacts, size));
+	}
+
 
     private void GotoPage()
     {
@@ -251,12 +262,12 @@ public class ContactBook
 
     private void Exit()
     {
-        Console.WriteLine("Exit");
+        isExit = true;
     }
 
     private bool ConfirmExit()
 	{
-		return Confirm("Do you want to exit?", NO);
+		return (isExit) ? isExit = Confirm("Do you want to exit?", NO) : false;
 	}
 
 	private void ShowExitScreen()
