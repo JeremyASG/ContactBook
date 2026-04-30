@@ -164,7 +164,7 @@ public class ContactBook
        if(!COMMANDS.Contains(input))
 		{
 			Console.WriteLine("ERROR: Invalid input. Please try again.");
-			PressEnterContinue();
+			PressEnterContinue(); //mistake
 			return false;
 		}
 		else
