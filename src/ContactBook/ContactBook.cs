@@ -379,9 +379,44 @@ public class ContactBook
 	}
 
     private void DeleteContact()
-    {
-        Console.WriteLine("Delete Contact");
-    }
+	{
+		int index = GetInt("Enter index", 1, filteredContacts.Count) - 1;
+
+		Console.Clear();
+
+
+		Console.WriteLine(new string('#', 80));
+
+		Console.WriteLine("Delete Contact");
+
+		Console.WriteLine(new string('#', 80));
+		Console.WriteLine();
+
+		DeleteContact(index);
+
+		Console.WriteLine();
+		PressEnterContinue();
+	}
+
+	private void DeleteContact(int index)
+	{
+		Contact c = filteredContacts[index];
+
+		ReviewContact(filteredContacts, index);
+
+		Console.WriteLine();
+		
+		if(Confirm("Do you want to delete this contact?", NO))
+		{
+			filteredContacts.Remove(c);
+			Console.WriteLine("Operation successful: Contact deleted.");
+
+		}
+		else
+		{
+			Console.WriteLine("Operation cancelled: Contact not deleted.");
+		}
+	}
 
     private void FindContacts()
     {
